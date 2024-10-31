@@ -1,21 +1,17 @@
-const connection = require('../config/db');
+const express = require('express');
+const router = express.Router();
+const ExpenseController = require('../controllers/expenseController');
 
-// Add new expense
-exports.addExpense = (req, res) => {
-    const { user_id, amount, category, date, description } = req.body;
-    const query = 'INSERT INTO Expenses (user_id, amount, category, date, description) VALUES (?, ?, ?, ?, ?)';
-    connection.query(query, [user_id, amount, category, date, description], (error, result) => {
-        if (error) throw error;
-        res.json({ message: 'Expense added successfully!' });
-    });
-};
+// Route to add a new expense
+router.post('/add', ExpenseController.addExpense);
 
-// Get all expenses for a user
-exports.getExpenses = (req, res) => {
-    const { user_id } = req.body;
-    const query = 'SELECT * FROM Expenses WHERE user_id = ?';
-    connection.query(query, [user_id], (error, results) => {
-        if (error) throw error;
-        res.json(results);
-    });
-};
+// Route to get all expenses for a user
+router.get('/get', ExpenseController.getExpenses);
+
+// Route to delete an expense by ID
+router.delete('/delete/:id', ExpenseController.deleteExpense);
+
+// Route to edit an existing expense
+router.put('/edit/:id', ExpenseController.editExpense);
+
+module.exports = router;

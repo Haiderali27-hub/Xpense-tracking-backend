@@ -1,5 +1,7 @@
 const express = require('express');
-const authRoutes = require('./routes/authRoutes'); // Ensure this path is correct
+const bodyParser = require('body-parser');
+const authRoutes = require('./routes/authRoutes');
+const expenseRoutes = require('./routes/expenseRoutes'); // Import the expense routes
 
 const app = express();
 
@@ -7,7 +9,9 @@ const app = express();
 app.use(express.json()); // This is sufficient for parsing JSON
 
 // Use the authentication routes
-app.use('/auth', authRoutes); // Ensure this line is present
+app.use('/auth', authRoutes);
+// Use the expense routes
+app.use('/expenses', expenseRoutes); // Set the base URL for expenses
 
 const PORT = 3000;
 app.listen(PORT, () => {
